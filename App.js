@@ -8,9 +8,14 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
+import Formulario from './components/Formulario';
 
 const App = () => {
-  return <></>;
+  return(
+  <>
+    <Formulario />
+  </>
+  )
 };
 
 const styles = StyleSheet.create({});
