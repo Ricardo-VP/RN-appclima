@@ -58,7 +58,7 @@ const Formulario = ({busqueda, setBusqueda, setConsultar}) => {
         <View>
           <Picker
             selectedValue={pais}
-            itemStyle={{height: 120, backgroundColor: '#FFF'}}
+            style={styles.selector}
             onValueChange={pais => setBusqueda({...busqueda, pais})}>
             <Picker.Item label="-- Seleccione un país --" value="" />
             <Picker.Item label="Estados Unidos" value="US" />
@@ -105,6 +105,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 18,
   },
+  selector: {
+    height: 50,
+    backgroundColor: '#FFF',
+  }
 });
 
 export default Formulario;

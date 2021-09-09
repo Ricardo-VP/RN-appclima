@@ -19,6 +19,7 @@ const App = () => {
   const [consultar, setConsultar] = useState(false);
   const {ciudad, pais} = busqueda;
   const [resultado, setResultado] = useState({});
+  const [bgColor, setBgColor] = useState('rgb(71, 149, 212)');
   const mostrarAlerta = () => {
     Alert.alert('Error', 'No hay resultados, intenta con otra ciudad o país', [
       {text: 'OK'},
@@ -34,6 +35,17 @@ const App = () => {
           const resultado = await respuesta.json();
           setResultado(resultado);
           setConsultar(false);
+          // Modifica los colores de fondo basado en la temperatura
+          const kelvin = 273.15;
+          const { main } = resultado;
+          const actual = main.temp - kelvin;
+          if(actual<15){
+            setBgColor('rgb(105, 108, 149)');
+          }else if(actual>=15 && actual <25){
+            setBgColor('rgb(71, 149, 212)');
+          }else{
+            setBgColor('rgb(178, 28, 61)');
+          }
         } catch (error) {
           mostrarAlerta();
         }
@@ -44,10 +56,13 @@ const App = () => {
   const ocultarTeclado = () => {
     Keyboard.dismiss();
   };
+  const bgColorApp = {
+    backgroundColor: bgColor,
+  };
   return (
     <>
       <TouchableWithoutFeedback onPress={() => ocultarTeclado()}>
-        <View style={styles.app}>
+        <View style={[styles.app, bgColorApp]}>
           <View style={styles.contenido}>
             <Clima resultado={resultado} />
             <Formulario
@@ -65,7 +80,6 @@ const App = () => {
 const styles = StyleSheet.create({
   app: {
     flex: 1,
-    backgroundColor: 'rgb(71, 149, 212)',
     justifyContent: 'center',
   },
   contenido: {
