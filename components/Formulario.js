@@ -6,20 +6,18 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
   Animated,
-  Alert
+  Alert,
 } from 'react-native';
 import {Picker} from '@react-native-community/picker';
 
-const Formulario = ({busqueda, setBusqueda}) => {
+const Formulario = ({busqueda, setBusqueda, setConsultar}) => {
   const {pais, ciudad} = busqueda;
   const [animacionBtn] = useState(new Animated.Value(1));
   const mostrarAlerta = () => {
-      Alert.alert(
-          'Error',
-          'Agrega una ciudad y un país para la búsqueda',
-          [{ text: 'Entendido'}]
-      )
-  } 
+    Alert.alert('Error', 'Agrega una ciudad y un país para la búsqueda', [
+      {text: 'Entendido'},
+    ]);
+  };
   const animacionEntrada = () => {
     Animated.spring(animacionBtn, {
       toValue: 0.75,
@@ -38,11 +36,13 @@ const Formulario = ({busqueda, setBusqueda}) => {
     transform: [{scale: animacionBtn}],
   };
   const consultarClima = () => {
-      if(pais.trim() === '' || ciudad.trim() === ''){
-        mostrarAlerta();
-        return;
-      }
-  }
+    if (pais.trim() === '' || ciudad.trim() === '') {
+      mostrarAlerta();
+      return;
+    }
+    // Consultar la API
+    setConsultar(true);
+  };
   return (
     <>
       <View>
@@ -73,8 +73,7 @@ const Formulario = ({busqueda, setBusqueda}) => {
         <TouchableWithoutFeedback
           onPressIn={() => animacionEntrada()}
           onPressOut={() => animacionSalida()}
-          onPress={() => consultarClima()}
-          >
+          onPress={() => consultarClima()}>
           <Animated.View style={[styles.btnBuscar, estiloAnimacion]}>
             <Text style={styles.txtBuscar}>Buscar clima</Text>
           </Animated.View>
